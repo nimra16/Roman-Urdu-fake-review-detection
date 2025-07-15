@@ -204,12 +204,13 @@ Results are available in the `Experimental results/` directory with detailed acc
 If you use this code or dataset in your research, please cite:
 
 ```bibtex
-@article{mughal2024fake,
-  title={Fake Reviews Detection on E-Commerce Websites using Novel User Behavioral Features: An Experimental Study},
-  author={Mughal, Nimra and Mujtaba, Ghulam and Mughal, Muhammad Hussain and Manaf, Abdul and Kamangar, Zainab Umair},
-  journal={},
-  year={2024},
-  publisher={}
+@article{mughal2025fake,
+  author = {N. Mughal and G. Mujtaba and M. H. Mughal and A. Manaf and Z. Kamangar},
+  title = {Fake Reviews Detection on E-Commerce Websites Using Novel User Behavioral Features: An Experimental Study},
+  journal = {ACM Transactions on Asian and Low-Resource Language Information Processing},
+  year = {2025},
+  month = jul,
+  doi = {https://doi.org/10.1145/3748493}
 }
 ```
 

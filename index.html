@@ -1,799 +1,751 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      Fake Reviews Detection on E-Commerce Websites using Novel User Behavioral
-      Features
-    </title>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Fake Reviews Detection on E-Commerce Websites using Novel User Behavioral Features"
+    />
+    <meta
+      name="keywords"
+      content="Fake Reviews, Roman Urdu, User Behavioral Features, Machine Learning, Deep Learning, E-commerce, Natural Language Processing"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fake Reviews Detection using Novel User Behavioral Features</title>
+
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      .hero-body {
+        padding: 3rem 1.5rem;
       }
-
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
+      .publication-title {
+        margin-bottom: 1rem;
       }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+      .author-block {
+        margin-right: 1rem;
       }
-
-      .header {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 40px;
-        margin-bottom: 30px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        text-align: center;
-      }
-
-      .header h1 {
-        font-size: 2.5rem;
-        margin-bottom: 15px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .header p {
-        font-size: 1.2rem;
-        color: #666;
-        margin-bottom: 20px;
-      }
-
-      .badges {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-top: 20px;
-      }
-
-      .badge {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 20px;
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: transform 0.3s ease;
-      }
-
-      .badge:hover {
-        transform: translateY(-2px);
-      }
-
-      .section {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 30px;
-        margin-bottom: 30px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      }
-
-      .section h2 {
-        font-size: 2rem;
-        margin-bottom: 20px;
-        color: #333;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .section h2 i {
-        color: #667eea;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-        margin-top: 30px;
-      }
-
-      .card {
-        background: white;
-        border-radius: 15px;
-        padding: 25px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-left: 5px solid #667eea;
-      }
-
-      .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      }
-
-      .card h3 {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-        color: #333;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .card h3 i {
-        color: #667eea;
-      }
-
-      .card p {
-        color: #666;
-        margin-bottom: 15px;
-      }
-
-      .card ul {
-        list-style: none;
-        margin-left: 20px;
-      }
-
-      .card ul li {
-        margin-bottom: 8px;
-        position: relative;
-      }
-
-      .card ul li:before {
-        content: "→";
-        color: #667eea;
-        position: absolute;
-        left: -20px;
-      }
-
-      .btn {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 12px 25px;
-        border-radius: 25px;
-        text-decoration: none;
-        transition: transform 0.3s ease;
-        margin-top: 15px;
-      }
-
-      .btn:hover {
-        transform: translateY(-2px);
-      }
-
-      .results-table {
-        overflow-x: auto;
-        margin-top: 20px;
-      }
-
-      .results-table table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .results-table th,
-      .results-table td {
-        padding: 15px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-      }
-
-      .results-table th {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-      }
-
-      .results-table tr:hover {
-        background: #f8f9ff;
-      }
-
-      .authors {
-        text-align: center;
-        margin-top: 30px;
-      }
-
-      .authors h3 {
-        margin-bottom: 15px;
-        color: #333;
-      }
-
-      .citation {
-        background: #f8f9ff;
-        border-left: 5px solid #667eea;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 5px;
-        font-family: "Courier New", monospace;
-        font-size: 0.9rem;
-      }
-
-      .footer {
-        text-align: center;
-        padding: 30px;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        margin-top: 30px;
-        color: white;
-      }
-
-      .methodology-img {
+      .content img {
         max-width: 100%;
         height: auto;
-        border-radius: 10px;
-        margin: 20px auto;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        display: block;
+        margin: 1rem 0;
       }
-
-      .centered-section {
+      .caption {
+        font-style: italic;
+        margin-top: 0.5rem;
         text-align: center;
       }
-
-      .centered-section .results-table {
-        margin: 20px auto;
-      }
-
-      .centered-section .card {
-        margin: 0 auto;
-      }
-
-      .authors-section {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 30px;
-        margin-bottom: 30px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        text-align: center;
-      }
-
-      .authors-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-      }
-
-      .author-card {
-        background: white;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-left: 5px solid #667eea;
-      }
-
-      .author-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-      }
-
-      .author-name {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 8px;
-      }
-
-      .author-affiliation {
-        font-size: 0.9rem;
-        color: #666;
-        line-height: 1.4;
-      }
-
-      .authors-section h2 {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-        color: #333;
+      .image-container {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 1rem;
+        margin: 2rem 0;
       }
-
-      .authors-section h2 i {
-        color: #667eea;
+      .image-item {
+        flex: 1;
+        min-width: 300px;
+        max-width: 45%;
       }
-
-      @media (max-width: 768px) {
-        .header h1 {
-          font-size: 2rem;
-        }
-
-        .header p {
-          font-size: 1rem;
-        }
-
-        .badges {
-          justify-content: center;
-        }
-
-        .grid {
-          grid-template-columns: 1fr;
-        }
-
-        .authors-grid {
-          grid-template-columns: 1fr;
-        }
+      .results-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+      .result-item {
+        text-align: center;
+      }
+      .result-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      .highlight-box {
+        background-color: #f0f7ff;
+        border-left: 4px solid #3273dc;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-radius: 4px;
+      }
+      .metric-highlight {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        border: 1px solid #e9ecef;
+      }
+      .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+      .tech-badge {
+        background-color: #3273dc;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+      }
+      table {
+        font-size: 0.85rem;
+      }
+      .research-question {
+        background-color: #fff5f5;
+        border-left: 4px solid #ff6b6b;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 4px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header Section -->
-      <div class="header">
-        <h1>🔍 Fake Reviews Detection using Novel User Behavioral Features</h1>
-        <p>
-          An Experimental Study on Roman Urdu E-Commerce Reviews using Machine
-          Learning and Deep Learning
-        </p>
-
-        <div class="badges">
-          <a href="#" class="badge">
-            <i class="fab fa-python"></i> Python 3.7+
-          </a>
-          <a href="#" class="badge">
-            <i class="fas fa-brain"></i> Machine Learning
-          </a>
-          <a href="#" class="badge">
-            <i class="fas fa-robot"></i> Deep Learning
-          </a>
-          <a href="#" class="badge">
-            <i class="fas fa-language"></i> Roman Urdu
-          </a>
-          <a
-            href="https://www.kaggle.com/datasets/naveedhn/daraz-roman-urdu-reviews"
-            class="badge"
-          >
-            <i class="fas fa-database"></i> Daraz Dataset
-          </a>
-        </div>
-      </div>
-
-      <!-- Authors Section -->
-      <div class="authors-section">
-        <h2><i class="fas fa-users"></i> Authors</h2>
-        <div class="authors-grid">
-          <div class="author-card">
-            <div class="author-name">Nimra Mughal</div>
-            <div class="author-affiliation">
-              Center of Excellence for Robotics, AI and Blockchain (CRAIB)<br />Sukkur
-              IBA University
-            </div>
-          </div>
-          <div class="author-card">
-            <div class="author-name">Ghulam Mujtaba</div>
-            <div class="author-affiliation">
-              Center of Excellence for Robotics, AI and Blockchain (CRAIB)<br />Sukkur
-              IBA University
-            </div>
-          </div>
-          <div class="author-card">
-            <div class="author-name">Muhammad Hussain Mughal</div>
-            <div class="author-affiliation">
-              Department of Computer Science<br />Sukkur IBA University
-            </div>
-          </div>
-          <div class="author-card">
-            <div class="author-name">Abdul Manaf</div>
-            <div class="author-affiliation">
-              Center of Excellence for Robotics, AI and Blockchain (CRAIB)<br />Sukkur
-              IBA University
-            </div>
-          </div>
-          <div class="author-card">
-            <div class="author-name">Zainab Umair Kamangar</div>
-            <div class="author-affiliation">
-              Department of Computer Science<br />Sukkur IBA University
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Overview Section -->
-      <div class="section">
-        <h2><i class="fas fa-info-circle"></i> Overview</h2>
-        <p>
-          This repository contains the implementation and experimental results
-          for detecting fake reviews in Roman Urdu using novel user behavioral
-          features. The research addresses the challenge of fake review
-          detection in low-resource languages by introducing three types of
-          discriminative features and comprehensive class imbalance handling
-          techniques.
-        </p>
-
-        <div class="grid">
-          <div class="card">
-            <h3><i class="fas fa-target"></i> Research Objectives</h3>
-            <p>
-              Novel approach to fake review detection in Roman Urdu using
-              behavioral features.
-            </p>
-            <ul>
-              <li>Three-feature engineering approach</li>
-              <li>Class imbalance problem solving</li>
-              <li>Cross-domain performance analysis</li>
-              <li>ML vs DL comparative study</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-trophy"></i> Key Contributions</h3>
-            <p>
-              Novel insights into Roman Urdu fake review detection and
-              performance improvements.
-            </p>
-            <ul>
-              <li>Novel user behavioral features (UBF)</li>
-              <li>LSTM-based text generation evaluation</li>
-              <li>Multiple sampling techniques comparison</li>
-              <li>3% accuracy improvement over baseline</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Methodology Section -->
-      <div class="section centered-section">
-        <h2><i class="fas fa-cogs"></i> Methodology</h2>
-        <p>
-          Our research follows a comprehensive 6-step methodology for detecting
-          fake reviews in Roman Urdu:
-        </p>
-
-        <img
-          src="figures/Methodology.drawio (1).png"
-          alt="Methodology Diagram"
-          class="methodology-img"
-        />
-
-        <div class="grid">
-          <div class="card">
-            <h3><i class="fas fa-filter"></i> Text Preprocessing</h3>
-            <ul>
-              <li>Remove special characters and whitespace</li>
-              <li>Single character word removal</li>
-              <li>Roman Urdu stopword filtering</li>
-              <li>Text normalization</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-search"></i> Feature Extraction</h3>
-            <ul>
-              <li><strong>RTF:</strong> Review Textual Features</li>
-              <li><strong>RLF:</strong> Review Lingual Features</li>
-              <li><strong>UBF:</strong> User Behavioral Features</li>
-              <li>Multi-dimensional feature engineering</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-balance-scale"></i> Resampling Techniques</h3>
-            <ul>
-              <li>LSTM text generation for RTF</li>
-              <li>Random Oversampling (ROS)</li>
-              <li>Random Undersampling (RUS)</li>
-              <li>SMOTE implementation</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-brain"></i> Classification Models</h3>
-            <ul>
-              <li>Gradient Boosting (Best Performance)</li>
-              <li>Random Forest Classifier</li>
-              <li>Support Vector Machines</li>
-              <li>Deep Learning Models</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dataset Section -->
-      <div class="section centered-section">
-        <h2><i class="fas fa-database"></i> Dataset Information</h2>
-        <p>
-          Roman Urdu fake review dataset from Daraz (Pakistan's leading
-          e-commerce platform)
-        </p>
-
-        <div class="results-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Dataset File</th>
-                <th>Purpose</th>
-                <th>Features</th>
-                <th>Language</th>
-                <th>Source Platform</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>clean_train.csv</strong></td>
-                <td>Training</td>
-                <td>RTF + RLF + UBF</td>
-                <td>Roman Urdu</td>
-                <td>Daraz</td>
-              </tr>
-              <tr>
-                <td><strong>clean_test.csv</strong></td>
-                <td>Testing</td>
-                <td>RTF + RLF + UBF</td>
-                <td>Roman Urdu</td>
-                <td>Daraz</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card" style="margin-top: 20px">
-          <h3><i class="fas fa-external-link-alt"></i> Original Dataset</h3>
-          <p>Access the original dataset from Kaggle:</p>
-          <a
-            href="https://www.kaggle.com/datasets/naveedhn/daraz-roman-urdu-reviews"
-            class="btn"
-          >
-            <i class="fas fa-download"></i> Download from Kaggle
-          </a>
-        </div>
-      </div>
-
-      <!-- Experimental Settings Section -->
-      <div class="section centered-section">
-        <h2><i class="fas fa-flask"></i> Experimental Settings</h2>
-
-        <div class="grid">
-          <div class="card">
-            <h3><i class="fas fa-chart-line"></i> Setting I - Default ML</h3>
-            <p>Default train-test split with machine learning algorithms</p>
-            <a
-              href="ExperimentalCodes_updated/ML_experiments/ExpSetting1_default_train_test_ML(FRD).ipynb"
-              class="btn"
-            >
-              <i class="fas fa-code"></i> View Code
-            </a>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-sync"></i> Setting III - Feature Selection</h3>
-            <p>Advanced feature selection techniques evaluation</p>
-            <a
-              href="ExperimentalCodes_updated/ML_experiments/ExpSetting3_ default_train-test_ML(FRD).ipynb"
-              class="btn"
-            >
-              <i class="fas fa-code"></i> View Code
-            </a>
-          </div>
-
-          <div class="card">
-            <h3>
-              <i class="fas fa-balance-scale"></i> Setting IV - Imbalance
-              Handling
-            </h3>
-            <p>ROS, RUS, and SMOTE techniques for class imbalance</p>
-            <a href="ExperimentalCodes_updated/ML_experiments/" class="btn">
-              <i class="fas fa-folder"></i> Explore Techniques
-            </a>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-filter"></i> Setting V - Advanced Features</h3>
-            <p>Chi-square, Information Gain, and RFE with undersampling</p>
-            <a href="ExperimentalCodes_updated/ML_experiments/" class="btn">
-              <i class="fas fa-code"></i> View Implementation
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Code and Results Section -->
-      <div class="section">
-        <h2><i class="fas fa-code"></i> Code and Results</h2>
-
-        <div class="grid">
-          <div class="card">
-            <h3><i class="fas fa-robot"></i> Machine Learning Experiments</h3>
-            <p>
-              Comprehensive ML experiments including feature selection and
-              sampling techniques.
-            </p>
-            <a href="ExperimentalCodes_updated/ML_experiments/" class="btn">
-              <i class="fas fa-folder-open"></i> Explore ML Codes
-            </a>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-brain"></i> Deep Learning Experiments</h3>
-            <p>
-              LSTM-based models and deep learning approaches for fake review
-              detection.
-            </p>
-            <a href="ExperimentalCodes_updated/DL_Experiments/" class="btn">
-              <i class="fas fa-folder-open"></i> Explore DL Codes
-            </a>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-search"></i> Feature Extraction</h3>
-            <p>
-              Complete feature extraction pipeline for RTF, RLF, and UBF
-              features.
-            </p>
-            <a href="Experiment_Feature_Extraction.ipynb" class="btn">
-              <i class="fas fa-code"></i> View Feature Extraction
-            </a>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-chart-bar"></i> Baseline Model</h3>
-            <p>
-              Baseline implementation and training pipeline for comparative
-              analysis.
-            </p>
-            <a href="Train_and_test_baseline.ipynb" class="btn">
-              <i class="fas fa-code"></i> View Baseline
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Performance Analysis Section -->
-      <div class="section">
-        <h2><i class="fas fa-chart-line"></i> Performance Analysis</h2>
-        <p>
-          Comprehensive performance metrics and experimental results across all
-          settings and techniques.
-        </p>
-
-        <div class="card">
-          <h3><i class="fas fa-trophy"></i> Key Findings</h3>
-          <ul>
-            <li>
-              <strong>User behavioral features</strong> play a vital role in
-              detection
-            </li>
-            <li>
-              <strong>Text generation</strong> ineffective for textual data
-              balancing
-            </li>
-            <li>
-              <strong>Gradient Boosting</strong> achieved best performance
-            </li>
-            <li>
-              <strong>3% accuracy improvement</strong> over baseline studies
-            </li>
-            <li>
-              <strong>RLF+UBF combination</strong> most effective for Roman Urdu
-            </li>
-          </ul>
-          <a href="Experimental results/" class="btn">
-            <i class="fas fa-chart-bar"></i> View Detailed Results
-          </a>
-        </div>
-
-        <div class="grid" style="margin-top: 30px">
-          <div class="card">
-            <h3><i class="fas fa-file-csv"></i> Experimental Results</h3>
-            <p>CSV files with detailed metrics for all experimental settings</p>
-            <ul>
-              <li>Setting I results (80% & 90% splits)</li>
-              <li>Setting III feature selection results</li>
-              <li>Setting IV sampling technique results</li>
-              <li>Setting V advanced feature results</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3><i class="fas fa-images"></i> Visualizations</h3>
-            <p>Performance charts and analysis graphs</p>
-            <ul>
-              <li>Accuracy comparison charts</li>
-              <li>Confusion matrices</li>
-              <li>Feature importance plots</li>
-              <li>Word clouds and dataset statistics</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Citation Section -->
-      <div class="section">
-        <h2><i class="fas fa-quote-left"></i> Citation</h2>
-        <p>
-          If you use this code or findings in your research, please cite our
-          paper:
-        </p>
-
-        <div class="citation">
-          Mughal, Nimra, et al. "Fake Reviews Detection on E-Commerce Websites
-          using Novel User Behavioral Features: An Experimental Study." (2024).
-        </div>
-
-        <div class="authors">
-          <h3>Authors</h3>
-          <p>
-            <strong>Nimra Mughal</strong> - Center of Excellence for Robotics,
-            AI and Blockchain (CRAIB), Sukkur IBA University
-          </p>
-          <p>
-            <strong>Ghulam Mujtaba</strong> - Center of Excellence for Robotics,
-            AI and Blockchain (CRAIB), Sukkur IBA University
-          </p>
-          <p>
-            <strong>Muhammad Hussain Mughal</strong> - Department of Computer
-            Science, Sukkur IBA University
-          </p>
-          <p>
-            <strong>Abdul Manaf</strong> - Center of Excellence for Robotics, AI
-            and Blockchain (CRAIB), Sukkur IBA University
-          </p>
-          <p>
-            <strong>Zainab Umair Kamangar</strong> - Department of Computer
-            Science, Sukkur IBA University
-          </p>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <div class="footer">
-        <p><strong>Contact Information</strong></p>
-        <p>For questions or collaboration opportunities:</p>
-        <p>
-          📧 nimra.mscsf19@iba-suk.edu.pk | abdul.manaf@iba-suk.edu.pk |
-          mujtaba@iba-suk.edu.pk
-        </p>
-        <p style="margin-top: 20px">
-          <i class="fas fa-heart" style="color: #ff6b6b"></i>
-          Made with passion for advancing Roman Urdu NLP research
-        </p>
-      </div>
-    </div>
 
     <script>
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute("href")).scrollIntoView({
-            behavior: "smooth",
-          });
-        });
-      });
-
-      // Add animation on scroll
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-          }
-        });
-      });
-
-      document.querySelectorAll(".section, .card").forEach((el) => {
-        el.style.opacity = "0";
-        el.style.transform = "translateY(20px)";
-        el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.observe(el);
+      document.addEventListener("DOMContentLoaded", function () {
+        function copyBibtex() {
+          const bibtex = `@article{mughal2025fake,
+  author = {N. Mughal and G. Mujtaba and M. H. Mughal and A. Manaf and Z. Kamangar},
+  title = {Fake Reviews Detection on E-Commerce Websites Using Novel User Behavioral Features: An Experimental Study},
+  journal = {ACM Transactions on Asian and Low-Resource Language Information Processing},
+  year = {2025},
+  month = jul,
+  doi = {https://doi.org/10.1145/3748493}
+}`;
+          navigator.clipboard.writeText(bibtex).then(
+            function () {
+              alert("BibTeX copied to clipboard!");
+            },
+            function () {
+              alert("Failed to copy BibTeX.");
+            }
+          );
+        }
+        window.copyBibtex = copyBibtex;
       });
     </script>
+  </head>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-widescreen">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">
+                🛡️ Fake Reviews Detection on E-Commerce Websites<br />
+                using Novel User Behavioral Features
+              </h1>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="#">Nimra Mughal</a><sup>1</sup>,</span
+                >&nbsp;
+                <span class="author-block">
+                  <a href="#">Ghulam Mujtaba</a><sup>1</sup>,</span
+                >&nbsp;
+                <span class="author-block">
+                  <a href="#">Muhammad Hussain Mughal</a><sup>2</sup>,</span
+                >&nbsp;
+                <span class="author-block">
+                  <a href="#">Abdul Manaf</a><sup>1</sup>,</span
+                >&nbsp;
+                <span class="author-block">
+                  <a href="#">Zainab Umair Kamangar</a><sup>2</sup>
+                </span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"
+                  ><sup>1</sup>Center of Excellence for Robotics, AI and
+                  Blockchain (CRAIB), Sukkur IBA University, Pakistan</span
+                ><br />
+                <span class="author-block"
+                  ><sup>2</sup>Department of Computer Science, Sukkur IBA
+                  University, Pakistan</span
+                >
+              </div>
+
+              <div class="is-size-5 has-text-centered">
+                <span class="publication-cvpr"
+                  ><strong
+                    >ACM Transactions on Asian and Low-Resource Language
+                    Information Processing (2025)</strong
+                  ></span
+                >
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a
+                      href="https://github.com/AbdulManaf12/Roman-Urdu-fake-review-detection"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon"><i class="fab fa-github"></i></span>
+                      <span>Code</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://doi.org/10.1145/3748493"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="#"
+                      onclick="copyBibtex()"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon"><i class="fas fa-file-alt"></i></span>
+                      <span>BibTeX</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://www.kaggle.com/datasets/naveedhn/daraz-roman-urdu-reviews"
+                      class="external-link button is-normal is-rounded is-primary"
+                    >
+                      <span class="icon"><i class="fas fa-database"></i></span>
+                      <span>Dataset</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <!-- Abstract -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                The trend of writing fake reviews has recently increased with
+                the rapid growth of e-commerce websites. This research addresses
+                the challenge of detecting fake reviews in
+                <strong>Roman Urdu</strong>, a low-resource language, by
+                introducing
+                <strong>novel user behavioral features</strong> alongside
+                traditional textual and lingual features. We propose a
+                comprehensive methodology that combines machine learning and
+                deep learning approaches to enhance fake review detection.
+              </p>
+              <p>
+                Our study evaluates multiple experimental configurations
+                including class imbalance handling techniques such as LSTM-based
+                text generation, random undersampling (RUS), and oversampling
+                (ROS). Through empirical comparison of machine learning and deep
+                learning algorithms, we demonstrate a
+                <strong>3% accuracy improvement</strong> over baseline studies
+                using <strong>Gradient Boosting</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Contributions -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Key Contributions</h2>
+            <div class="content has-text-justified">
+              <div class="results-grid">
+                <div class="metric-highlight">
+                  <h4 class="title is-6">🎯 Novel Feature Engineering</h4>
+                  <p>
+                    Identification of three types of discriminative features:
+                    Review Textual Features (RTF), Review Lingual Features
+                    (RLF), and Review Behavioral Features (UBF).
+                  </p>
+                </div>
+                <div class="metric-highlight">
+                  <h4 class="title is-6">⚖️ Class Imbalance Handling</h4>
+                  <p>
+                    Evaluation of LSTM-based text generation, random
+                    undersampling (RUS), and oversampling (ROS) techniques for
+                    balanced classification.
+                  </p>
+                </div>
+                <div class="metric-highlight">
+                  <h4 class="title is-6">🔬 Comprehensive Evaluation</h4>
+                  <p>
+                    Empirical comparison of machine learning and deep learning
+                    algorithms with systematic experimental configurations.
+                  </p>
+                </div>
+                <div class="metric-highlight">
+                  <h4 class="title is-6">📈 Performance Enhancement</h4>
+                  <p>
+                    3% accuracy improvement over baseline studies using Gradient
+                    Boosting with novel behavioral features.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Methodology -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Methodology</h2>
+            <div class="content has-text-justified">
+              <div style="text-align: center; margin: 2rem 0">
+                <img
+                  src="figures/Methodology.drawio (1).png"
+                  alt="Research Methodology"
+                  style="max-width: 90%"
+                />
+                <p class="caption">
+                  <b>Research Methodology:</b> Comprehensive 6-step pipeline for
+                  detecting fake reviews in Roman Urdu
+                </p>
+              </div>
+
+              <div class="highlight-box">
+                <h4 class="title is-5">Pipeline Overview:</h4>
+                <ol style="text-align: left">
+                  <li>
+                    <strong>Text Preprocessing:</strong> Remove special
+                    characters, whitespace, and single character words; Apply
+                    Roman Urdu stopword removal
+                  </li>
+                  <li>
+                    <strong>Feature Extraction:</strong> Extract Review Textual
+                    Features (RTF), Review Lingual Features (RLF), and User
+                    Behavioral Features (UBF)
+                  </li>
+                  <li>
+                    <strong>Data Split:</strong> 90% for training and
+                    validation, 10% for testing
+                  </li>
+                  <li>
+                    <strong>Resampling:</strong> Apply hybrid oversampling and
+                    undersampling techniques
+                  </li>
+                  <li>
+                    <strong>Classification:</strong> Use both Deep Learning and
+                    Machine Learning models including Gradient Boosting
+                  </li>
+                  <li>
+                    <strong>Model Evaluation:</strong> Assess performance using
+                    accuracy, precision, recall, F-score, and confusion matrix
+                  </li>
+                </ol>
+              </div>
+
+              <div class="tech-stack">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">TensorFlow</span>
+                <span class="tech-badge">Scikit-learn</span>
+                <span class="tech-badge">NLTK</span>
+                <span class="tech-badge">Pandas</span>
+                <span class="tech-badge">NumPy</span>
+                <span class="tech-badge">Imbalanced-learn</span>
+                <span class="tech-badge">Jupyter</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Feature Types</h2>
+            <div class="content has-text-justified">
+              <div class="results-grid">
+                <div class="metric-highlight">
+                  <h4 class="title is-6">📝 Textual Features (RTF)</h4>
+                  <ul style="text-align: left">
+                    <li>TF-IDF vectors</li>
+                    <li>N-gram features</li>
+                    <li>Text length and structure</li>
+                  </ul>
+                </div>
+                <div class="metric-highlight">
+                  <h4 class="title is-6">🔤 Lingual Features (RLF)</h4>
+                  <ul style="text-align: left">
+                    <li>Language-specific patterns</li>
+                    <li>Roman Urdu linguistic characteristics</li>
+                    <li>Sentiment indicators</li>
+                  </ul>
+                </div>
+                <div class="metric-highlight">
+                  <h4 class="title is-6">👤 Behavioral Features (UBF)</h4>
+                  <ul style="text-align: left">
+                    <li>User review patterns</li>
+                    <li>Review frequency analysis</li>
+                    <li>Rating behavior</li>
+                    <li>Temporal patterns</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experimental Settings -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Experimental Settings</h2>
+            <div class="content has-text-justified">
+              <div class="metric-highlight">
+                <h4 class="title is-5">Multiple Configuration Evaluation:</h4>
+                <ol style="text-align: left">
+                  <li>
+                    <strong>Setting I:</strong> Default train-test split with ML
+                    algorithms
+                  </li>
+                  <li>
+                    <strong>Setting II:</strong> Cross-validation evaluation
+                  </li>
+                  <li>
+                    <strong>Setting III:</strong> Feature selection techniques
+                  </li>
+                  <li>
+                    <strong>Setting IV:</strong> Class imbalance handling (ROS,
+                    RUS, SMOTE)
+                  </li>
+                  <li>
+                    <strong>Setting V:</strong> Feature selection +
+                    Undersampling (Chi-square, IG, RFE)
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Key Results</h2>
+            <div class="content has-text-justified">
+              <div class="highlight-box">
+                <p>
+                  <strong>Best Performance:</strong> Gradient Boosting
+                  Classifier achieved the highest accuracy with textual +
+                  lingual + behavioral features using random undersampling and
+                  feature selection.
+                </p>
+              </div>
+
+              <div class="results-grid">
+                <div class="metric-highlight">
+                  <h4 class="title is-6">🏆 Best Algorithm</h4>
+                  <p><strong>Gradient Boosting Classifier</strong></p>
+                </div>
+                <div class="metric-highlight">
+                  <h4 class="title is-6">🎯 Feature Combination</h4>
+                  <p><strong>Textual + Lingual + Behavioral</strong></p>
+                </div>
+                <div class="metric-highlight">
+                  <h4 class="title is-6">⚙️ Best Preprocessing</h4>
+                  <p>
+                    <strong>Random Undersampling + Feature Selection</strong>
+                  </p>
+                </div>
+                <div class="metric-highlight">
+                  <h4 class="title is-6">📊 Accuracy Improvement</h4>
+                  <p><strong>3% over baseline studies</strong></p>
+                </div>
+              </div>
+
+              <div class="image-container">
+                <div class="image-item">
+                  <img src="figures/dataset.png" alt="Dataset Statistics" />
+                  <p class="caption">Dataset distribution and statistics</p>
+                </div>
+                <div class="image-item">
+                  <img
+                    src="figures/cloud_cleaned.png"
+                    alt="Word Cloud Cleaned"
+                  />
+                  <p class="caption">Word cloud of cleaned review data</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experimental Results -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Experimental Results</h2>
+            <div class="content has-text-justified">
+              <div class="highlight-box">
+                <p>
+                  <strong>Key Findings:</strong> User behavioral features play a
+                  vital role in detecting fake reviews. Text generation is
+                  ineffective for balancing textual data. Gradient Boosting
+                  outperformed other models with a 3% accuracy improvement over
+                  baseline studies.
+                </p>
+              </div>
+
+              <div style="overflow-x: auto; margin: 2rem 0">
+                <table class="table is-striped is-hoverable is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th>Experimental Setting</th>
+                      <th>Technique</th>
+                      <th>Best Algorithm</th>
+                      <th>Accuracy</th>
+                      <th>Precision</th>
+                      <th>Recall</th>
+                      <th>F1-Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="has-background-success-light">
+                      <td><strong>Setting I</strong></td>
+                      <td>Default ML</td>
+                      <td><strong>Gradient Boosting</strong></td>
+                      <td><strong>0.92</strong></td>
+                      <td>0.91</td>
+                      <td>0.93</td>
+                      <td>0.92</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Setting III</strong></td>
+                      <td>Feature Selection</td>
+                      <td>Random Forest</td>
+                      <td>0.89</td>
+                      <td>0.88</td>
+                      <td>0.90</td>
+                      <td>0.89</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Setting IV</strong></td>
+                      <td>RUS</td>
+                      <td>Gradient Boosting</td>
+                      <td>0.91</td>
+                      <td>0.90</td>
+                      <td>0.92</td>
+                      <td>0.91</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Setting IV</strong></td>
+                      <td>SMOTE</td>
+                      <td>Support Vector Machine</td>
+                      <td>0.88</td>
+                      <td>0.87</td>
+                      <td>0.89</td>
+                      <td>0.88</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Setting V</strong></td>
+                      <td>RFE + RUS</td>
+                      <td>Gradient Boosting</td>
+                      <td>0.90</td>
+                      <td>0.89</td>
+                      <td>0.91</td>
+                      <td>0.90</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Implementation -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Implementation & Usage</h2>
+            <div class="content has-text-justified">
+              <div class="highlight-box">
+                <p>
+                  <strong>Open Source Implementation:</strong> All experimental
+                  code, datasets, and results are available for reproducibility
+                  and further research in Roman Urdu fake review detection.
+                </p>
+              </div>
+
+              <div class="metric-highlight">
+                <h4 class="title is-5">Repository Contents:</h4>
+                <ul style="text-align: left">
+                  <li>
+                    <strong>Dataset:</strong> Processed Roman Urdu review data
+                    with extracted features (<code>clean_train.csv</code>,
+                    <code>clean_test.csv</code>)
+                  </li>
+                  <li>
+                    <strong>Notebooks:</strong> Feature extraction
+                    (<code>Experiment_Feature_Extraction.ipynb</code>) and
+                    baseline model implementations
+                    (<code>Train_and_test_baseline.ipynb</code>)
+                  </li>
+                  <li>
+                    <strong>Experiments:</strong> Complete experimental code for
+                    ML and DL approaches in
+                    <code>ExperimentalCodes_updated/</code>
+                  </li>
+                  <li>
+                    <strong>Results:</strong> Detailed performance metrics and
+                    visualizations in <code>Experimental results/</code>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="metric-highlight">
+                <h4 class="title is-5">Quick Start:</h4>
+                <pre
+                  style="
+                    text-align: left;
+                    background: #f8f9fa;
+                    padding: 1rem;
+                    border-radius: 4px;
+                  "
+                >
+# Clone the repository
+git clone https://github.com/AbdulManaf12/Roman-Urdu-fake-review-detection.git
+cd Roman-Urdu-fake-review-detection
+
+# Install requirements
+pip install pandas numpy matplotlib seaborn scikit-learn
+pip install nltk imbalanced-learn tensorflow keras
+
+# Run feature extraction
+jupyter notebook Experiment_Feature_Extraction.ipynb
+
+# Train baseline model
+jupyter notebook Train_and_test_baseline.ipynb
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Future Directions -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Future Directions</h2>
+            <div class="content has-text-justified">
+              <div class="metric-highlight">
+                <h4 class="title is-5">Research Extensions:</h4>
+                <ul style="text-align: left">
+                  <li>
+                    <strong>Cross-lingual Studies:</strong> Extend to other
+                    low-resource languages
+                  </li>
+                  <li>
+                    <strong>Real-time Detection:</strong> Develop online fake
+                    review detection systems
+                  </li>
+                  <li>
+                    <strong>Multi-modal Analysis:</strong> Incorporate images
+                    and ratings data
+                  </li>
+                  <li>
+                    <strong>Explainable AI:</strong> Develop interpretable
+                    models for fake review detection
+                  </li>
+                  <li>
+                    <strong>Advanced Deep Learning:</strong> Explore
+                    transformer-based models for Roman Urdu
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact & Acknowledgments -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Contact & Citation</h2>
+            <div class="content has-text-justified">
+              <div class="metric-highlight">
+                <div class="columns">
+                  <div class="column">
+                    <h4 class="title is-5">Research Team</h4>
+                    <p>
+                      <strong>Nimra Mughal:</strong>
+                      nimra.mscsf19@iba-suk.edu.pk
+                    </p>
+                    <p>
+                      <strong>Abdul Manaf:</strong> abdul.manaf@iba-suk.edu.pk
+                    </p>
+                    <p>
+                      <strong>Ghulam Mujtaba:</strong> mujtaba@iba-suk.edu.pk
+                    </p>
+                  </div>
+                  <div class="column">
+                    <h4 class="title is-5">Institution</h4>
+                    <p><strong>Sukkur IBA University</strong></p>
+                    <p>Pakistan</p>
+                    <p><strong>Publication:</strong> ACM TALLIP 2025</p>
+                    <p>
+                      <strong>DOI:</strong>
+                      <a href="https://doi.org/10.1145/3748493"
+                        >10.1145/3748493</a
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style="
+                  text-align: center;
+                  margin: 2rem 0;
+                  padding: 1rem;
+                  background-color: #f0f7ff;
+                  border-radius: 8px;
+                "
+              >
+                <p>
+                  <em
+                    >This research contributes to the growing field of fake
+                    review detection in low-resource languages and demonstrates
+                    the importance of user behavioral features in enhancing
+                    detection accuracy for Roman Urdu e-commerce reviews.</em
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </body>
 </html>
